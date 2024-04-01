@@ -89,26 +89,15 @@ public class StudentTest
     @Test
     public void randomTest()
     {
+        Random random = new Random();
 
         for (int loop = 0; loop < 10; ++loop)
         {
-            int num_vertices = 1000;
+            int randomVertexAmount = random.nextInt(500) + 1;
+            int randomNum = random.nextInt(randomVertexAmount, randomVertexAmount);
 
-            Map<Integer, Integer> representative = new HashMap<>();
-
-            Graph<Integer> graph = new UndirectedAdjacencyList(num_vertices);
-
-            Random rand = new Random();
-            for (int i = 0; i < num_vertices - 1; ++i)
-            {
-                for (int j = i + 1; j < num_vertices; ++j)
-                {
-                    if (rand.nextDouble() < 0.5)
-                    {
-                        graph.addEdge(i, j);
-                    }
-                }
-            }
+            UndirectedAdjacencyList graph = new UndirectedAdjacencyList(randomVertexAmount);
+            Map<Integer, Integer> representative = new HashMap<>;
 
             ConnectedComponents.connected_components(graph, representative);
             assertEquals(num_vertices, representative.size());
