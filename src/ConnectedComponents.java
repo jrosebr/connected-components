@@ -27,7 +27,7 @@ public class ConnectedComponents {
 
     private static <V> void dfs(Graph<V> G, V vertex, Set<V> visited, V rep, Map<V, V> representative)
     {
-        //Assign curr representative to the curr vertex
+        //Marks this vertex as visited
         visited.add(vertex);
         representative.put(vertex, rep);
 
@@ -35,9 +35,7 @@ public class ConnectedComponents {
         {
             if (!visited.contains(neighbor))
             {
-                //rep = neighbor;
-
-                dfs(G, vertex, visited, rep, representative);
+                dfs(G, neighbor, visited, rep, representative);
             }
         }
     }
