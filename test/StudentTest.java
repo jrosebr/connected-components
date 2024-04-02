@@ -53,7 +53,7 @@ public class StudentTest
         assertEquals(2, representative.get(2));
         assertEquals(2, representative.get(3));
 
-        assertEquals(5, representative.size());
+        assertEquals(graph.numVertices(), representative.size());
         assertEquals(5, graph.numVertices());
 
         assertNotEquals(representative.get(0), representative.get(2));
