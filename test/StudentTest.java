@@ -15,6 +15,9 @@ public class StudentTest
         Map<Integer, Integer> representative = new HashMap<>();
 
         ConnectedComponents.connected_components(graph, representative);
+
+        assertNull(representative.get(0));
+
         assertEquals(0, representative.size());
         assertEquals(0, graph.numVertices());
     }
@@ -25,12 +28,14 @@ public class StudentTest
         Graph<Integer> graph = new UndirectedAdjacencyList(1);
         Map<Integer, Integer> representative = new HashMap<>();
 
-        graph.addEdge(0, 1);
+        graph.addEdge(0, 0);
 
         ConnectedComponents.connected_components(graph, representative);
+        assertEquals(0, representative.get(0));
 
         assertEquals(1, representative.size());
         assertEquals(1, graph.numVertices());
+
     }
 
     @Test
@@ -42,6 +47,12 @@ public class StudentTest
 
         Map<Integer, Integer> representative = new HashMap<>();
         ConnectedComponents.connected_components(graph, representative);
+
+        assertEquals(0, representative.get(0));
+        assertEquals(0, representative.get(1));
+        assertEquals(2, representative.get(2));
+        assertEquals(2, representative.get(3));
+
         assertEquals(5, representative.size());
         assertEquals(5, graph.numVertices());
 
@@ -59,10 +70,11 @@ public class StudentTest
         ConnectedComponents.connected_components(graph, representative);
 
         assertEquals(3, representative.size());
-        assertEquals(representative.get(0), representative.get(1));
-        assertEquals(representative.get(1), representative.get(2));
+        assertEquals(3, graph.numVertices());
 
-
+        assertEquals(0, representative.get(0));
+        assertEquals(0, representative.get(1));
+        assertEquals(0, representative.get(2));
     }
 
     @Test
@@ -71,7 +83,9 @@ public class StudentTest
         Graph<Integer> graph = new UndirectedAdjacencyList(7);
         graph.addEdge(0, 1);
         graph.addEdge(1, 2);
+        graph.addEdge(2, 3);
         graph.addEdge(3, 4);
+        graph.addEdge(4, 5);
         graph.addEdge(5, 6);
 
         Map<Integer, Integer> representative = new HashMap<>();
@@ -79,25 +93,38 @@ public class StudentTest
         assertEquals(7, representative.size());
         assertEquals(7, graph.numVertices());
 
-        assertEquals(representative.get(0), representative.get(1));
-        assertEquals(representative.get(1), representative.get(2));
-        assertEquals(representative.get(3), representative.get(4));
-        assertEquals(representative.get(5), representative.get(6));
-        assertNotEquals(representative.get(0), representative.get(3));
+        assertEquals(0, representative.get(0));
+        assertEquals(0, representative.get(1));
+        assertEquals(0, representative.get(2));
+        assertEquals(0, representative.get(3));
+        assertEquals(0, representative.get(4));
+        assertEquals(0, representative.get(5));
+        assertEquals(0, representative.get(6));
     }
 
     @Test
     public void randomTest()
     {
-        Random random = new Random();
 
         for (int loop = 0; loop < 10; ++loop)
         {
-            int randomVertexAmount = random.nextInt(500) + 1;
-            int randomNum = random.nextInt(randomVertexAmount, randomVertexAmount);
+            Random rand = new Random();
 
-            UndirectedAdjacencyList graph = new UndirectedAdjacencyList(randomVertexAmount);
-            Map<Integer, Integer> representative = new HashMap<>;
+            int randomVertexAmount = rand.nextInt(1000) + 1;
+
+            int num_vertices = 1000;
+
+            Map<Integer, Integer> representative = new HashMap<>();
+
+            Graph<Integer> graph = new UndirectedAdjacencyList(num_vertices);
+
+            for (int i = 0; i < num_vertices - 1; ++i)
+            {
+                int randomNum1 = rand.nextInt(randomVertexAmount);
+                int randomNum2 = rand.nextInt(randomVertexAmount);
+
+                graph.addEdge(randomNum1, randomNum2);
+            }
 
             ConnectedComponents.connected_components(graph, representative);
             assertEquals(num_vertices, representative.size());
@@ -120,7 +147,8 @@ public class StudentTest
     }
 
     @Test
-    public void test() {
+    public void test()
+    {
         emptyGraph();
         singleGraph();
         disconnectedGraphs();
