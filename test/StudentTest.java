@@ -25,12 +25,14 @@ public class StudentTest
         Graph<Integer> graph = new UndirectedAdjacencyList(1);
         Map<Integer, Integer> representative = new HashMap<>();
 
-        graph.addEdge(0, 1);
+        graph.addEdge(0, 0);
 
         ConnectedComponents.connected_components(graph, representative);
 
         assertEquals(1, representative.size());
         assertEquals(1, graph.numVertices());
+
+        assertEquals(0, representative.get(0));
     }
 
     @Test
@@ -90,15 +92,16 @@ public class StudentTest
     public void randomTest()
     {
 
-        for (int loop = 0; loop < 10; ++loop)
+        for (int loop = 0; loop < 100; ++loop)
         {
-            int num_vertices = 1000;
+            Random rand = new Random();
+
+            int num_vertices = rand.nextInt(500) + 1;
 
             Map<Integer, Integer> representative = new HashMap<>();
 
             Graph<Integer> graph = new UndirectedAdjacencyList(num_vertices);
 
-            Random rand = new Random();
             for (int i = 0; i < num_vertices - 1; ++i)
             {
                 for (int j = i + 1; j < num_vertices; ++j)
